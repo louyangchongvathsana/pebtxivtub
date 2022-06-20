@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  </head>
+  <body>
+    <section>
+        <div class="card text-bg-primary mb-3" style="max-width: 18rem;">
+            <div class="card-header">Open</div>
+            <div class="card-body">
+              <h1 class="card-title" id="open">0</h5>
+            </div>
+          </div>
+
+          <div class="card text-bg-warning mb-3" style="max-width: 18rem;">
+            <div class="card-header">Close</div>
+            <div class="card-body">
+              <h1 class="card-title" id="close">0</h5>
+            </div>
+          </div>
+
+    </section>
+    <div id="rs"></div>
+    <script>
+      async function getApi() {
+        let req = await fetch("https://gas.mtsapi.com/gases?_limit=2000");
+        let data = await req.json();
+        console.log(data);
+        let rs = document.getElementById("rs");
+        let filter = data.filter((e) => e.open == true);
+        let name = filter.map((e) => `<h1>${e.Name}</h1>`);
+        let open = document.getElementById("open");
+        open.innerHTML = filter.length;
+
+        let close = document.getElementById("close");
+        close.innerHTML = data.length - filter.length;
+
+        rs.innerHTML = (name);
+      }
+
+      getApi();
+    </script>
+  </body>
+</html>
